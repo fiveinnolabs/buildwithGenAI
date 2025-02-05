@@ -219,6 +219,64 @@
         .share-twitter { background: #000000; color: white; }
         .share-bluesky { background: #0560ff; color: white; }
         .share-linkedin { background: #0077b5; color: white; }
+
+        /* Add new thumbnail styles */
+        .video-thumbnail {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: #f0f0f0;
+            cursor: pointer;
+            overflow: hidden;
+        }
+        
+        .video-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .video-thumbnail:hover img {
+            transform: scale(1.05);
+        }
+        
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+        
+        .play-button::after {
+            content: '';
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 10px 0 10px 20px;
+            border-color: transparent transparent transparent white;
+            margin-left: 4px;
+        }
+        
+        .video-thumbnail:hover .play-button {
+            opacity: 1;
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .video-wrapper {
+            display: none;
+            width: 100%;
+            aspect-ratio: 16/9;
+        }
     </style>
 </head>
 <body>
@@ -337,6 +395,7 @@
             handleDirectVideoLink(); // Add this line
             if (!window.location.search.includes('video=')) {
                 renderVideos(videos);
+                preloadThumbnails(videos); // Add this line
             }
             updateFilters();
             
@@ -390,8 +449,30 @@
                     const videoCard = document.createElement('div');
                     videoCard.className = 'video-card';
                     videoCard.style.animationDelay = `${index * 100}ms`;
+                    
+                    // Get the highest quality thumbnail available
+                    const thumbnailUrls = [
+                        `https://img.youtube.com/vi/${video.id}/maxresdefault.jpg`,
+                        `https://img.youtube.com/vi/${video.id}/sddefault.jpg`,
+                        `https://img.youtube.com/vi/${video.id}/hqdefault.jpg`,
+                        `https://img.youtube.com/vi/${video.id}/mqdefault.jpg`
+                    ];
+
                     videoCard.innerHTML = `
-                        <iframe src="https://www.youtube.com/embed/${video.id}" allowfullscreen></iframe>
+                        <div class="video-thumbnail" data-video-id="${video.id}">
+                            <img src="${thumbnailUrls[0]}" 
+                                 onerror="this.onerror=null; this.src='${thumbnailUrls[1]}'; this.onerror=null;"
+                                 alt="${video.title}"
+                                 loading="lazy">
+                            <div class="play-button"></div>
+                        </div>
+                        <div class="video-wrapper" id="video-${video.id}">
+                            <iframe src="about:blank" 
+                                    data-src="https://www.youtube.com/embed/${video.id}?autoplay=1" 
+                                    allowfullscreen 
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
+                            </iframe>
+                        </div>
                         <div class="video-info">
                             <h3>${video.title}</h3>
                             <p>${video.description}</p>
@@ -418,9 +499,29 @@
                             </div>
                         </div>
                     `;
+
                     videoList.appendChild(videoCard);
+
+                    // Add click handler for thumbnail
+                    const thumbnail = videoCard.querySelector('.video-thumbnail');
+                    const videoWrapper = videoCard.querySelector('.video-wrapper');
+                    
+                    thumbnail.addEventListener('click', () => {
+                        thumbnail.style.display = 'none';
+                        videoWrapper.style.display = 'block';
+                        const iframe = videoWrapper.querySelector('iframe');
+                        iframe.src = iframe.dataset.src;
+                    });
                 });
             }, 500);
+        }
+
+        // Add thumbnail preloading function
+        function preloadThumbnails(videos) {
+            videos.forEach(video => {
+                const img = new Image();
+                img.src = `https://img.youtube.com/vi/${video.id}/maxresdefault.jpg`;
+            });
         }
 
         // Add smooth transitions for filter changes
