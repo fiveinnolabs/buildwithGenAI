@@ -189,6 +189,36 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        /* Share buttons styling */
+        .share-buttons {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #eee;
+        }
+        
+        .share-button {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: opacity 0.2s;
+        }
+        
+        .share-button:hover {
+            opacity: 0.8;
+        }
+        
+        .share-whatsapp { background: #25D366; color: white; }
+        .share-twitter { background: #000000; color: white; }
+        .share-bluesky { background: #0560ff; color: white; }
+        .share-linkedin { background: #0077b5; color: white; }
     </style>
 </head>
 <body>
@@ -304,7 +334,10 @@
             const videos = await fetchVideos();
             const filterValues = getUniqueFilterValues(videos);
             populateFilterDropdowns(filterValues);
-            renderVideos(videos);
+            handleDirectVideoLink(); // Add this line
+            if (!window.location.search.includes('video=')) {
+                renderVideos(videos);
+            }
             updateFilters();
             
             // Fade in the entire page
@@ -318,6 +351,19 @@
         const dateFilter = document.getElementById('date-filter');
         const clearFilters = document.getElementById('clear-filters');
         
+        function generateShareUrls(video) {
+            const baseUrl = 'https://victordelrosal.github.io/buildwithGenAI/';
+            const videoUrl = `${baseUrl}?video=${video.id}`;
+            const text = encodeURIComponent(`Check out "${video.title}" ${videoUrl}`);
+            
+            return {
+                whatsapp: `https://wa.me/?text=${text}`,
+                twitter: `https://twitter.com/intent/tweet?text=${text}`,
+                bluesky: `https://bsky.app/intent/compose?text=${text}`,
+                linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(videoUrl)}`
+            };
+        }
+
         function renderVideos(videos) {
             videoList.innerHTML = '';
             
@@ -340,6 +386,7 @@
             setTimeout(() => {
                 videoList.innerHTML = '';
                 videos.forEach((video, index) => {
+                    const shareUrls = generateShareUrls(video);
                     const videoCard = document.createElement('div');
                     videoCard.className = 'video-card';
                     videoCard.style.animationDelay = `${index * 100}ms`;
@@ -354,6 +401,20 @@
                                         ${tool}
                                     </span>
                                 `).join('')}
+                            </div>
+                            <div class="share-buttons">
+                                <button onclick="window.open('${shareUrls.whatsapp}', '_blank')" class="share-button share-whatsapp">
+                                    WhatsApp
+                                </button>
+                                <button onclick="window.open('${shareUrls.twitter}', '_blank')" class="share-button share-twitter">
+                                    𝕏
+                                </button>
+                                <button onclick="window.open('${shareUrls.bluesky}', '_blank')" class="share-button share-bluesky">
+                                    Bluesky
+                                </button>
+                                <button onclick="window.open('${shareUrls.linkedin}', '_blank')" class="share-button share-linkedin">
+                                    LinkedIn
+                                </button>
                             </div>
                         </div>
                     `;
@@ -462,6 +523,28 @@
             const videos = await fetchVideos();
             renderVideos(filterVideos(videos));
         });
+
+        // Add this function to handle direct video links
+        function handleDirectVideoLink() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const videoId = urlParams.get('video');
+            
+            if (videoId) {
+                fetchVideos().then(videos => {
+                    const targetVideo = videos.find(v => v.id === videoId);
+                    if (targetVideo) {
+                        renderVideos([targetVideo]);
+                        // Update meta tags for proper sharing
+                        document.querySelector('meta[property="og:title"]').content = targetVideo.title;
+                        document.querySelector('meta[property="og:description"]').content = targetVideo.description;
+                        document.querySelector('meta[property="og:image"]').content = `https://img.youtube.com/vi/${targetVideo.id}/maxresdefault.jpg`;
+                        document.querySelector('meta[name="twitter:title"]').content = targetVideo.title;
+                        document.querySelector('meta[name="twitter:description"]').content = targetVideo.description;
+                        document.querySelector('meta[name="twitter:image"]').content = `https://img.youtube.com/vi/${targetVideo.id}/maxresdefault.jpg`;
+                    }
+                });
+            }
+        }
 
         initialize();
     </script>
