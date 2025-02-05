@@ -693,13 +693,13 @@
                     const targetVideo = videos.find(v => v.id === videoId);
                     if (targetVideo) {
                         renderVideos([targetVideo]);
-                        // Update meta tags for proper sharing
+                        // Update meta tags with consistent preview image
                         document.querySelector('meta[property="og:title"]').content = targetVideo.title;
                         document.querySelector('meta[property="og:description"]').content = targetVideo.description;
-                        document.querySelector('meta[property="og:image"]').content = `https://img.youtube.com/vi/${targetVideo.id}/maxresdefault.jpg`;
+                        document.querySelector('meta[property="og:image"]').content = 'https://victordelrosal.github.io/buildwithGenAI/images/buildwithGenAI-preview.png';
                         document.querySelector('meta[name="twitter:title"]').content = targetVideo.title;
                         document.querySelector('meta[name="twitter:description"]').content = targetVideo.description;
-                        document.querySelector('meta[name="twitter:image"]').content = `https://img.youtube.com/vi/${targetVideo.id}/maxresdefault.jpg`;
+                        document.querySelector('meta[name="twitter:image"]').content = 'https://victordelrosal.github.io/buildwithGenAI/images/buildwithGenAI-preview.png';
                     }
                 });
             }
