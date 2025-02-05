@@ -77,11 +77,36 @@
             margin: 0 auto !important;
             max-width: 100% !important;
         }
+        .welcome-text {
+            color: #666;
+            font-size: 1.1em;
+            margin-bottom: 30px;
+        }
+        .signup-legend {
+            color: #555;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .site-footer {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+        .site-footer a {
+            color: #fff;
+            text-decoration: none;
+        }
+        .site-footer a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>BuildWithGenAI</h1>
+        <p class="welcome-text">Sharing my learning journey building with Generative AI...</p>
         <div class="search-container">
             <input type="text" id="search" class="search-box" placeholder="Search videos...">
             <span class="search-clear" id="search-clear">✕</span>
@@ -113,9 +138,14 @@
     
     <div class="signup-section">
         <div class="signup-container">
+            <p class="signup-legend">Get an email alert when a new video is added:</p>
             <script async data-uid="b5d76893e5" src="https://fiveinnovators.kit.com/b5d76893e5/index.js"></script>
         </div>
     </div>
+
+    <footer class="site-footer">
+        Built by Victor del Rosal, author of <a href="http://www.humanlikebook.com" target="_blank">HUMANLIKE: the AI Transformation</a> book
+    </footer>
 
     <script>
         async function fetchVideos() {
