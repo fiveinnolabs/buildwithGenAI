@@ -8,6 +8,11 @@
         body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: white; }
         .container { max-width: 1000px; margin: auto; padding: 20px; }
         .search-box { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; }
+        @media (min-width: 768px) {
+            .search-box {
+                width: 200px; /* Approximately 4 words width */
+            }
+        }
         .filters { margin: 20px 0; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
         .filter { padding: 8px 12px; border: 1px solid #ccc; border-radius: 5px; cursor: pointer; }
         .filter.active { background-color: #000; color: #fff; }
