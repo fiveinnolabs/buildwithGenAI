@@ -3,41 +3,51 @@ name: Update RSS Feed on New Video Upload
 on:
   push:
     paths:
-      - 'videos/*.json'  # Trigger workflow when a new video JSON file is added
+      - "videos/vid*.json"  # Triggers only when a new video JSON is added/updated
   workflow_dispatch:  # Allows manual triggering
+
+permissions:
+  contents: write  # Gives GitHub Actions permission to push changes
 
 jobs:
   update-feed:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
         with:
-          persist-credentials: false  # We will set up custom authentication
+          persist-credentials: false  # Disables default token for security
+          fetch-depth: 0  # Ensures full history is available
 
-      - name: Set up GitHub credentials
+      - name: Set Up Git
         run: |
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "GitHub Actions"
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Generate RSS Feed (Example)
+      - name: Generate RSS Feed
         run: |
           echo '<?xml version="1.0" encoding="UTF-8" ?>' > feed.xml
           echo '<rss version="2.0"><channel>' >> feed.xml
-          for file in videos/*.json; do
-            title=$(jq -r '.title' "$file")
-            link=$(jq -r '.url' "$file")
-            pubDate=$(date -u +"%a, %d %b %Y %H:%M:%S GMT")
-            echo "<item><title>${title}</title><link>${link}</link><pubDate>${pubDate}</pubDate></item>" >> feed.xml
+          echo '<title>Build with GenAI - Video Feed</title>' >> feed.xml
+          echo '<link>https://github.com/victordelrosal/buildwithGenAI</link>' >> feed.xml
+          echo '<description>Latest video updates</description>' >> feed.xml
+
+          for file in videos/vid*.json; do
+            TITLE=$(jq -r '.title' "$file")
+            LINK=$(jq -r '.url' "$file")
+            PUBDATE=$(jq -r '.date' "$file")
+
+            echo '<item>' >> feed.xml
+            echo "<title>$TITLE</title>" >> feed.xml
+            echo "<link>$LINK</link>" >> feed.xml
+            echo "<pubDate>$PUBDATE</pubDate>" >> feed.xml
+            echo '</item>' >> feed.xml
           done
+
           echo '</channel></rss>' >> feed.xml
 
-      - name: Commit and Push Changes
+      - name: Commit and Push RSS Feed
         run: |
           git add feed.xml
           git commit -m "Auto-update RSS feed with new video"
-          git push origin main
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/victordelrosal/buildwithGenAI.git main
