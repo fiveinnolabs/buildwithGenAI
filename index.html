@@ -435,6 +435,64 @@
         .copy-success {
             animation: copySuccess 0.3s ease;
         }
+
+        /* Add navigation buttons styles */
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .nav-button {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #ddd;
+            border-radius: 50%;
+            background: white;
+            color: #666;
+            font-size: 1.2em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+        
+        .nav-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .nav-button:not(:disabled):hover {
+            border-color: #007bff;
+            color: #007bff;
+            transform: translateY(-2px);
+        }
+        
+        .nav-button::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s ease;
+            margin-bottom: 5px;
+        }
+        
+        .nav-button:hover::after {
+            opacity: 1;
+            visibility: visible;
+        }
     </style>
 </head>
 <body>
@@ -521,6 +579,10 @@
             </select>
         </div>
         <div id="video-list" class="video-grid"></div>
+        <div class="nav-buttons">
+            <button id="prev-button" class="nav-button" data-tooltip="Previous" disabled>&lt;</button>
+            <button id="next-button" class="nav-button" data-tooltip="Next" disabled>&gt;</button>
+        </div>
     </div>
     
     <div class="signup-section">
@@ -535,6 +597,10 @@
     </footer>
 
     <script>
+        let currentPage = 0;
+        let totalVideos = [];
+        const videosPerPage = 5;
+
         async function fetchVideos() {
             let videos = [];
             let allVideos = [];
@@ -553,9 +619,9 @@
                 }
             }
             
-            // Reverse the order and take only the last 5 videos
-            videos = allVideos.reverse().slice(0, 5);
-            return videos;
+            totalVideos = allVideos.reverse();
+            updateNavigationButtons();
+            return totalVideos.slice(currentPage * videosPerPage, (currentPage + 1) * videosPerPage);
         }
 
         function getUniqueFilterValues(videos) {
@@ -785,7 +851,7 @@
             const selectedDate = dateFilter.value;
             const currentDate = new Date();
             
-            return videos.filter(video => {
+            const filteredVideos = totalVideos.filter(video => {
                 const videoDate = new Date(video.date);
                 let dateMatch = true;
                 if (selectedDate !== 'all') {
@@ -803,6 +869,18 @@
                     dateMatch
                 );
             });
+
+            currentPage = 0; // Reset to first page when filtering
+            updateNavigationButtons();
+            return filteredVideos.slice(0, videosPerPage);
+        }
+
+        function updateNavigationButtons() {
+            const prevButton = document.getElementById('prev-button');
+            const nextButton = document.getElementById('next-button');
+            
+            prevButton.disabled = currentPage === 0;
+            nextButton.disabled = (currentPage + 1) * videosPerPage >= totalVideos.length;
         }
 
         searchInput.addEventListener('input', async () => {
@@ -899,6 +977,24 @@
                 console.error('Failed to copy:', err);
             });
         }
+
+        document.getElementById('prev-button').addEventListener('click', async () => {
+            if (currentPage > 0) {
+                currentPage--;
+                const videos = totalVideos.slice(currentPage * videosPerPage, (currentPage + 1) * videosPerPage);
+                renderVideos(videos);
+                updateNavigationButtons();
+            }
+        });
+        
+        document.getElementById('next-button').addEventListener('click', async () => {
+            if ((currentPage + 1) * videosPerPage < totalVideos.length) {
+                currentPage++;
+                const videos = totalVideos.slice(currentPage * videosPerPage, (currentPage + 1) * videosPerPage);
+                renderVideos(videos);
+                updateNavigationButtons();
+            }
+        });
 
         initialize();
     </script>
