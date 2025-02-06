@@ -3,12 +3,12 @@ import json
 import xml.etree.ElementTree as ET
 from datetime import datetime
 
-# Function to format date as RFC-822
+# Function to format date as RFC-822 (Required for valid RSS)
 def format_pub_date(date_str):
     dt = datetime.strptime(date_str, "%Y-%m-%d")
     return dt.strftime("%a, %d %b %Y %H:%M:%S GMT")
 
-# Define RSS structure
+# Define RSS structure with media namespace
 rss = ET.Element("rss", version="2.0", attrib={"xmlns:media": "http://search.yahoo.com/mrss/"})
 channel = ET.SubElement(rss, "channel")
 ET.SubElement(channel, "title").text = "Build with GenAI - Video Feed"
@@ -33,15 +33,15 @@ for video in videos:
     ET.SubElement(item, "title").text = video["title"]
     ET.SubElement(item, "link").text = f"https://www.youtube.com/watch?v={video['id']}"
 
-    # Add CDATA for description
+    # Add CDATA for description (fix encoding issues)
     description = ET.SubElement(item, "description")
     description.text = f"<![CDATA[{video['description']}]]>"
 
     # Correctly format pubDate
     ET.SubElement(item, "pubDate").text = format_pub_date(video["date"])
 
-    # Add media:thumbnail
-    thumbnail = ET.SubElement(item, "media:thumbnail", url=video["thumbnail"])
+    # Add media:thumbnail properly
+    thumbnail = ET.SubElement(item, "{http://search.yahoo.com/mrss/}thumbnail", url=video["thumbnail"])
 
     # Add complexity as a category
     ET.SubElement(item, "category").text = f"Complexity: {video['complexity']}"
@@ -58,4 +58,4 @@ for video in videos:
 tree = ET.ElementTree(rss)
 tree.write("feed.xml", encoding="utf-8", xml_declaration=True)
 
-print("✅ RSS feed updated successfully!")
+print("✅ RSS feed updated successfully! Now test it on W3C Validator.")
