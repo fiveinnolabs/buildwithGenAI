@@ -37,7 +37,7 @@ for video in videos:
     description = ET.SubElement(item, "description")
     description.text = f"<![CDATA[{video['description']}]]>"
 
-    # Correctly format pubDate
+    # Correctly format pubDate (RFC-822 format)
     ET.SubElement(item, "pubDate").text = format_pub_date(video["date"])
 
     # Add media:thumbnail properly
