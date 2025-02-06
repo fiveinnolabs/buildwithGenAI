@@ -696,6 +696,7 @@
     <script>
         let currentPage = 0;
         let totalVideos = [];
+        let filteredVideos = []; // Add this new variable to track filtered results
         const videosPerPage = 6;
 
         async function fetchVideos() {
@@ -717,6 +718,7 @@
             }
             
             totalVideos = allVideos.reverse();
+            filteredVideos = totalVideos; // Initialize filteredVideos with all videos
             updateNavigationButtons();
             return totalVideos.slice(currentPage * videosPerPage, (currentPage + 1) * videosPerPage);
         }
@@ -953,7 +955,7 @@
             const selectedDate = dateFilter.value;
             const currentDate = new Date();
             
-            const filteredVideos = totalVideos.filter(video => {
+            filteredVideos = totalVideos.filter(video => {
                 const videoDate = new Date(video.date);
                 let dateMatch = true;
                 if (selectedDate !== 'all') {
@@ -974,7 +976,7 @@
 
             currentPage = 0; // Reset to first page when filtering
             updateNavigationButtons();
-            return filteredVideos.slice(0, videosPerPage);
+            return filteredVideos.slice(currentPage * videosPerPage, (currentPage + 1) * videosPerPage);
         }
 
         function updateNavigationButtons() {
@@ -982,7 +984,8 @@
             const nextButton = document.getElementById('next-button');
             
             prevButton.disabled = currentPage === 0;
-            nextButton.disabled = (currentPage + 1) * videosPerPage >= totalVideos.length;
+            // Use filteredVideos length instead of totalVideos
+            nextButton.disabled = (currentPage + 1) * videosPerPage >= filteredVideos.length;
         }
 
         searchInput.addEventListener('input', async () => {
@@ -1031,8 +1034,11 @@
             document.querySelectorAll('.filter').forEach(filter => filter.classList.remove('active'));
             document.getElementById('search-clear').style.display = 'none';
             
-            const videos = await fetchVideos();
+            currentPage = 0;
+            filteredVideos = totalVideos; // Reset filtered videos to all videos
+            const videos = filteredVideos.slice(0, videosPerPage);
             renderVideos(videos);
+            updateNavigationButtons();
         });
 
         document.getElementById('search-clear').addEventListener('click', async () => {
@@ -1083,16 +1089,16 @@
         document.getElementById('prev-button').addEventListener('click', async () => {
             if (currentPage > 0) {
                 currentPage--;
-                const videos = totalVideos.slice(currentPage * videosPerPage, (currentPage + 1) * videosPerPage);
+                const videos = filteredVideos.slice(currentPage * videosPerPage, (currentPage + 1) * videosPerPage);
                 renderVideos(videos);
                 updateNavigationButtons();
             }
         });
         
         document.getElementById('next-button').addEventListener('click', async () => {
-            if ((currentPage + 1) * videosPerPage < totalVideos.length) {
+            if ((currentPage + 1) * videosPerPage < filteredVideos.length) {
                 currentPage++;
-                const videos = totalVideos.slice(currentPage * videosPerPage, (currentPage + 1) * videosPerPage);
+                const videos = filteredVideos.slice(currentPage * videosPerPage, (currentPage + 1) * videosPerPage);
                 renderVideos(videos);
                 updateNavigationButtons();
             }
