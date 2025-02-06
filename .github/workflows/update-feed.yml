@@ -3,12 +3,11 @@ name: Update RSS Feed on New Video Upload
 on:
   push:
     paths:
-      - 'videos/*.json'
+      - "videos/*.json"
 
 jobs:
   update-feed:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -16,52 +15,46 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.x'
+          python-version: '3.9'
 
-      - name: Generate RSS feed
+      - name: Install dependencies
+        run: pip install xmltodict
+
+      - name: Generate RSS Feed
         run: |
-          echo '<?xml version="1.0" encoding="UTF-8" ?>' > feed.xml
-          echo '<rss version="2.0"><channel>' >> feed.xml
-          echo '<title>Build with GenAI - Video Feed</title>' >> feed.xml
-          echo '<link>https://github.com/victordelrosal/buildwithGenAI</link>' >> feed.xml
-          echo '<description>Latest video updates</description>' >> feed.xml
+          import os
+          import json
+          import xml.etree.ElementTree as ET
 
-          for file in videos/*.json; do
-            id=$(jq -r '.id // empty' "$file")
-            title=$(jq -r '.title // "Untitled Video"' "$file")
-            description=$(jq -r '.description // "No description available."' "$file")
-            thumbnail=$(jq -r '.thumbnail // empty' "$file")
-            pubDate=$(jq -r '.date // "2025-02-06T00:00:00Z"' "$file")
+          # Define RSS structure
+          rss = ET.Element("rss", version="2.0")
+          channel = ET.SubElement(rss, "channel")
+          ET.SubElement(channel, "title").text = "Build with GenAI - Video Feed"
+          ET.SubElement(channel, "link").text = "https://github.com/victordelrosal/buildwithGenAI"
+          ET.SubElement(channel, "description").text = "Latest video updates"
 
-            # Construct YouTube link if ID exists
-            if [[ -n "$id" ]]; then
-              link="https://www.youtube.com/watch?v=$id"
-            else
-              link="https://github.com/victordelrosal/buildwithGenAI"
-            fi
+          # Read video JSON files and add them as RSS items
+          video_dir = "videos"
+          for filename in sorted(os.listdir(video_dir), reverse=True):
+              if filename.endswith(".json"):
+                  with open(os.path.join(video_dir, filename), "r") as f:
+                      video = json.load(f)
+                  item = ET.SubElement(channel, "item")
+                  ET.SubElement(item, "title").text = video["title"]
+                  ET.SubElement(item, "link").text = f"https://www.youtube.com/watch?v={video['id']}"
+                  ET.SubElement(item, "description").text = f"<![CDATA[{video['description']}]]>"
+                  ET.SubElement(item, "pubDate").text = video["date"]
+                  thumbnail = ET.SubElement(item, "media:thumbnail")
+                  thumbnail.set("url", video["thumbnail"])
 
-            echo "<item>" >> feed.xml
-            echo "<title>$title</title>" >> feed.xml
-            echo "<link>$link</link>" >> feed.xml
-            echo "<description><![CDATA[$description]]></description>" >> feed.xml
-            echo "<pubDate>$pubDate</pubDate>" >> feed.xml
-
-            # Add thumbnail if available
-            if [[ -n "$thumbnail" ]]; then
-              echo "<media:thumbnail url=\"$thumbnail\" />" >> feed.xml
-            fi
-
-            echo "</item>" >> feed.xml
-          done
-
-          echo '</channel></rss>' >> feed.xml
+          # Write XML file
+          tree = ET.ElementTree(rss)
+          tree.write("feed.xml", encoding="utf-8", xml_declaration=True)
 
       - name: Commit and Push RSS Feed
         run: |
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "actions@github.com"
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add feed.xml
-          git commit -m "Auto-update RSS feed with new video"
-          git push
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          git commit -m "Auto-update RSS feed with new video" || echo "No changes to commit"
+          git push origin main
