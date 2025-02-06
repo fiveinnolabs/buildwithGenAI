@@ -416,15 +416,18 @@
             keywordsFilter.innerHTML = '<option value="all">Keywords</option>';
             complexityFilter.innerHTML = '<option value="all">Complexity</option>';
 
-            // Populate filters
+            // Manually set the order of complexity options
+            const complexityOrder = ['Beginner', 'Intermediate', 'Advanced'];
+            complexityOrder.forEach(complexity => {
+                complexityFilter.innerHTML += `<option value="${complexity}">${complexity}</option>`;
+            });
+
+            // Populate other filters
             filterValues.tools.forEach(tool => {
                 toolsFilter.innerHTML += `<option value="${tool}">${tool}</option>`;
             });
             filterValues.keywords.forEach(keyword => {
                 keywordsFilter.innerHTML += `<option value="${keyword}">${keyword}</option>`;
-            });
-            filterValues.complexities.forEach(complexity => {
-                complexityFilter.innerHTML += `<option value="${complexity}">${complexity}</option>`;
             });
         }
 
