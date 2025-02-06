@@ -52,4 +52,11 @@
 <pubDate>2025-02-06</pubDate>
 <media:thumbnail url="PENDING" />
 </item>
+<item>
+<title>Introducing Claude 3 Family: Anthropic's Most Capable AI Models</title>
+<link>https://www.youtube.com/watch?v=ZCiHFI72xj4</link>
+<description><![CDATA[Anthropic introduces the Claude 3 family - Haiku, Sonnet, and Opus - our most capable AI models yet. With substantially improved performance across language understanding, math, coding, and vision, the Claude 3 family sets new standards in capability and safety.]]></description>
+<pubDate>2024-03-04</pubDate>
+<media:thumbnail url="https://img.youtube.com/vi/ZCiHFI72xj4/maxresdefault.jpg" />
+</item>
 </channel></rss>
