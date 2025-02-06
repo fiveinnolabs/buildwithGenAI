@@ -5,52 +5,51 @@
 <description>Latest video updates</description>
 <item>
 <title>Introducing Claude 3 Family: Anthropic's Most Capable AI Models</title>
-<link>null</link>
-<pubDate>null</pubDate>
+<link>https://www.youtube.com/watch?v=ZCiHFI72xj4</link>
+<description><![CDATA[Anthropic introduces the Claude 3 family - Haiku, Sonnet, and Opus - our most capable AI models yet. With substantially improved performance across language understanding, math, coding, and vision, the Claude 3 family sets new standards in capability and safety.]]></description>
+<pubDate>2024-03-04</pubDate>
+<media:thumbnail url="https://img.youtube.com/vi/ZCiHFI72xj4/maxresdefault.jpg" />
 </item>
 <item>
 <title>How to Create Custom ChatGPT & Claude Like AI Model</title>
-<link>null</link>
-<pubDate>null</pubDate>
+<link>https://www.youtube.com/watch?v=dFSnam97YbQ</link>
+<description><![CDATA[Learn how to create your own custom AI model similar to ChatGPT and Claude. This tutorial walks through the process of fine-tuning and customizing large language models for specific use cases.]]></description>
+<pubDate>2024-02-15</pubDate>
+<media:thumbnail url="https://img.youtube.com/vi/dFSnam97YbQ/maxresdefault.jpg" />
 </item>
 <item>
 <title>Build AI Web App w/ React & OpenAI ChatGPT 4 Vision - QR Code Bot</title>
-<link>null</link>
-<pubDate>null</pubDate>
+<link>https://www.youtube.com/watch?v=HEdxRWTl9rA</link>
+<description><![CDATA[Build a web application that uses OpenAI's ChatGPT 4 Vision API to analyze QR codes. Learn how to integrate AI vision capabilities into your React applications.]]></description>
+<pubDate>2024-01-20</pubDate>
+<media:thumbnail url="https://img.youtube.com/vi/HEdxRWTl9rA/maxresdefault.jpg" />
 </item>
 <item>
 <title>Introducing Claude 3 Family: Anthropic's Most Capable AI Models</title>
-<link>null</link>
-<pubDate>null</pubDate>
+<link>https://www.youtube.com/watch?v=ZCiHFI72xj4</link>
+<description><![CDATA[Anthropic introduces the Claude 3 family - Haiku, Sonnet, and Opus - our most capable AI models yet. With substantially improved performance across language understanding, math, coding, and vision, the Claude 3 family sets new standards in capability and safety.]]></description>
+<pubDate>2024-03-04</pubDate>
+<media:thumbnail url="https://img.youtube.com/vi/ZCiHFI72xj4/maxresdefault.jpg" />
 </item>
 <item>
 <title>How to Create Custom ChatGPT & Claude Like AI Model</title>
-<link>null</link>
-<pubDate>null</pubDate>
+<link>https://www.youtube.com/watch?v=dFSnam97YbQ</link>
+<description><![CDATA[Learn how to create your own custom AI model similar to ChatGPT and Claude. This tutorial walks through the process of fine-tuning and customizing large language models for specific use cases.]]></description>
+<pubDate>2024-02-15</pubDate>
+<media:thumbnail url="https://img.youtube.com/vi/dFSnam97YbQ/maxresdefault.jpg" />
 </item>
 <item>
 <title>Build AI Web App w/ React & OpenAI ChatGPT 4 Vision - QR Code Bot</title>
-<link>null</link>
-<pubDate>null</pubDate>
+<link>https://www.youtube.com/watch?v=HEdxRWTl9rA</link>
+<description><![CDATA[Build a web application that uses OpenAI's ChatGPT 4 Vision API to analyze QR codes. Learn how to integrate AI vision capabilities into your React applications.]]></description>
+<pubDate>2024-01-20</pubDate>
+<media:thumbnail url="https://img.youtube.com/vi/HEdxRWTl9rA/maxresdefault.jpg" />
 </item>
 <item>
 <title>Refining Social Media Share Buttons - Grayscale UI Update</title>
-<link>null</link>
-<pubDate>null</pubDate>
-</item>
-<item>
-<title>New AI Video Release!</title>
-<link>null</link>
-<pubDate>null</pubDate>
-</item>
-<item>
-<title>New AI Video Release!</title>
-<link>null</link>
-<pubDate>null</pubDate>
-</item>
-<item>
-<title>New AI Video Release!</title>
-<link>null</link>
-<pubDate>null</pubDate>
+<link>https://www.youtube.com/watch?v=KxOV9LJFy3A</link>
+<description><![CDATA[In this session, we update social media share buttons to follow a clean grayscale aesthetic. The changes include setting button backgrounds to light gray, darkening icons for better contrast, ensuring a uniform monochrome look, and maintaining hover animations while removing color-specific styles. The result is a polished and professional UI that enhances site consistency.]]></description>
+<pubDate>2025-02-06</pubDate>
+<media:thumbnail url="PENDING" />
 </item>
 </channel></rss>
