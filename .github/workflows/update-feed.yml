@@ -17,9 +17,6 @@ jobs:
         with:
           python-version: '3.9'
 
-      - name: Install dependencies
-        run: pip install xmltodict
-
       - name: Generate RSS Feed
         run: |
           echo "Generating RSS feed..."
