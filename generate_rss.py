@@ -8,12 +8,18 @@ def format_pub_date(date_str):
     dt = datetime.strptime(date_str, "%Y-%m-%d")
     return dt.strftime("%a, %d %b %Y %H:%M:%S GMT")
 
-# Define RSS structure with media namespace
-rss = ET.Element("rss", version="2.0", attrib={"xmlns:media": "http://search.yahoo.com/mrss/"})
+# Define RSS structure with media & atom namespaces
+rss = ET.Element("rss", version="2.0", attrib={
+    "xmlns:media": "http://search.yahoo.com/mrss/",
+    "xmlns:atom": "http://www.w3.org/2005/Atom"
+})
 channel = ET.SubElement(rss, "channel")
+
+# Add required feed metadata
 ET.SubElement(channel, "title").text = "Build with GenAI - Video Feed"
 ET.SubElement(channel, "link").text = "https://github.com/victordelrosal/buildwithGenAI"
 ET.SubElement(channel, "description").text = "Latest video updates"
+ET.SubElement(channel, "atom:link", href="https://raw.githubusercontent.com/victordelrosal/buildwithGenAI/main/feed.xml", rel="self", type="application/rss+xml")
 
 # Read JSON files, sort by date, and add them as RSS items
 video_dir = "videos"
@@ -41,7 +47,11 @@ for video in videos:
     ET.SubElement(item, "pubDate").text = format_pub_date(video["date"])
 
     # Add media:thumbnail properly
-    thumbnail = ET.SubElement(item, "{http://search.yahoo.com/mrss/}thumbnail", url=video["thumbnail"])
+    if video["thumbnail"] != "PENDING":
+        thumbnail = ET.SubElement(item, "media:thumbnail", url=video["thumbnail"])
+
+    # Add GUID
+    ET.SubElement(item, "guid", isPermaLink="true").text = f"https://www.youtube.com/watch?v={video['id']}"
 
     # Add complexity as a category
     ET.SubElement(item, "category").text = f"Complexity: {video['complexity']}"
