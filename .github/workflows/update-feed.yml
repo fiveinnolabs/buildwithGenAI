@@ -25,16 +25,32 @@ jobs:
           echo '<title>Build with GenAI - Video Feed</title>' >> feed.xml
           echo '<link>https://github.com/victordelrosal/buildwithGenAI</link>' >> feed.xml
           echo '<description>Latest video updates</description>' >> feed.xml
-          
+
           for file in videos/*.json; do
-            title=$(jq -r '.title' "$file")
-            link=$(jq -r '.link' "$file")
-            pubDate=$(jq -r '.pubDate' "$file")
+            id=$(jq -r '.id // empty' "$file")
+            title=$(jq -r '.title // "Untitled Video"' "$file")
+            description=$(jq -r '.description // "No description available."' "$file")
+            thumbnail=$(jq -r '.thumbnail // empty' "$file")
+            pubDate=$(jq -r '.date // "2025-02-06T00:00:00Z"' "$file")
+
+            # Construct YouTube link if ID exists
+            if [[ -n "$id" ]]; then
+              link="https://www.youtube.com/watch?v=$id"
+            else
+              link="https://github.com/victordelrosal/buildwithGenAI"
+            fi
 
             echo "<item>" >> feed.xml
             echo "<title>$title</title>" >> feed.xml
             echo "<link>$link</link>" >> feed.xml
+            echo "<description><![CDATA[$description]]></description>" >> feed.xml
             echo "<pubDate>$pubDate</pubDate>" >> feed.xml
+
+            # Add thumbnail if available
+            if [[ -n "$thumbnail" ]]; then
+              echo "<media:thumbnail url=\"$thumbnail\" />" >> feed.xml
+            fi
+
             echo "</item>" >> feed.xml
           done
 
