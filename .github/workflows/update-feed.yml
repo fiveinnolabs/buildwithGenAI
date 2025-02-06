@@ -3,28 +3,41 @@ name: Update RSS Feed on New Video Upload
 on:
   push:
     paths:
-      - "videos/*.json"
+      - 'videos/*.json'  # Trigger workflow when a new video JSON file is added
+  workflow_dispatch:  # Allows manual triggering
 
 jobs:
   update-feed:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          persist-credentials: false  # Disable default GitHub Actions auth
+          persist-credentials: false  # We will set up custom authentication
 
-      - name: Generate RSS Feed
-        run: echo '<?xml version="1.0" encoding="UTF-8" ?>' > feed.xml
-
-      - name: Configure Git
+      - name: Set up GitHub credentials
         run: |
-          git config --global user.name "GitHub Actions"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "GitHub Actions"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+
+      - name: Generate RSS Feed (Example)
+        run: |
+          echo '<?xml version="1.0" encoding="UTF-8" ?>' > feed.xml
+          echo '<rss version="2.0"><channel>' >> feed.xml
+          for file in videos/*.json; do
+            title=$(jq -r '.title' "$file")
+            link=$(jq -r '.url' "$file")
+            pubDate=$(date -u +"%a, %d %b %Y %H:%M:%S GMT")
+            echo "<item><title>${title}</title><link>${link}</link><pubDate>${pubDate}</pubDate></item>" >> feed.xml
+          done
+          echo '</channel></rss>' >> feed.xml
 
       - name: Commit and Push Changes
         run: |
           git add feed.xml
           git commit -m "Auto-update RSS feed with new video"
-          git push https://x-access-token:${{ secrets.GH_PAT }}@github.com/victordelrosal/buildwithGenAI.git main
+          git push origin main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
