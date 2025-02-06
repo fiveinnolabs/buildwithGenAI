@@ -21,7 +21,7 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⬟</text></svg>">
     <style>
         body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: white; }
-        .container { max-width: 1000px; margin: auto; padding: 20px; }
+        .container { max-width: 1000px; margin: auto; padding: 80px 20px 20px; }
         .search-box { 
             width: 100%; 
             padding: 10px 10px 10px 10px; 
@@ -59,8 +59,7 @@
         .video-info { padding: 10px; }
         .tag { display: inline-block; background: #eee; padding: 5px 8px; margin: 2px; border-radius: 5px; font-size: 12px; }
         .search-container {
-            position: relative;
-            display: inline-block;
+            display: none;
         }
         .search-clear {
             position: absolute;
@@ -325,16 +324,97 @@
             height: 18px;
             filter: brightness(0) invert(1); /* Make the SVG white */
         }
+
+        /* Add navbar styles */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background-color: #fff;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            z-index: 1000;
+        }
+        .navbar-left,
+        .navbar-right {
+            display: flex;
+            align-items: center;
+        }
+        .nav-logo {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #007bff;
+            text-decoration: none;
+            margin-right: 20px;
+        }
+        .nav-link {
+            margin-left: 15px;
+            text-decoration: none;
+            color: #333;
+            font-size: 0.95em;
+            display: flex;
+            align-items: center;
+        }
+        .nav-link:hover {
+            text-decoration: underline;
+        }
+        .nav-search {
+            position: relative;
+            flex-grow: 1;
+            max-width: 300px;
+        }
+        .nav-search .search-box {
+            width: 100%;
+            padding: 6px 30px 6px 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .nav-search .search-clear {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #999;
+            font-weight: bold;
+            display: none;
+            font-size: 14px;
+            padding: 4px;
+            line-height: 1;
+        }
+        .nav-search .search-clear:hover {
+            color: #666;
+        }
     </style>
 </head>
 <body>
+    <!-- Add navbar -->
+    <nav class="navbar">
+        <div class="navbar-left">
+            <a href="https://fiveinnolabs.com" class="nav-logo">⬟</a>
+            <div class="nav-search">
+                <input type="text" id="search" class="search-box" placeholder="Search videos...">
+                <span class="search-clear" id="search-clear">✕</span>
+            </div>
+        </div>
+        <div class="navbar-right">
+            <a href="https://victordelrosal.github.io/buildwithGenAI/?video=dFSnam97YbQ" class="nav-link">⬟ Welcome</a>
+            <a href="https://victordelrosal.com" class="nav-link">ℹ️ About Us</a>
+            <a href="https://humanlikebook.com" class="nav-link">📖 Book</a>
+            <a href="https://bit.ly/genAI-fiveinnolabs" class="nav-link">💡 Resources</a>
+            <a href="#" class="nav-link">👤 Login</a>
+        </div>
+    </nav>
+
     <div class="container">
         <h1>⬟ Build with GenAI</h1>
         <p class="welcome-text">Everyone can build with generative AI. Sharing my learning journey...</p>
-        <div class="search-container">
-            <input type="text" id="search" class="search-box" placeholder="Search videos...">
-            <span class="search-clear" id="search-clear">✕</span>
-        </div>
         <div class="filters">
             <button id="clear-filters" class="filter">Clear all filters</button>
             <select id="complexity-filter" class="filter">
