@@ -1,7 +1,7 @@
 {
     "id": "HEdxRWTl9rA",
     "title": "Build AI Web App w/ React & OpenAI ChatGPT 4 Vision - QR Code Bot",
-    "description": "Build a web application that uses OpenAI's ChatGPT 4 Vision API to analyze QR codes. Learn how to integrate AI vision capabilities into your React applications.",
+    "description": "Build a web application using OpenAI's ChatGPT 4 Vision API to analyze QR codes. Learn how to integrate AI vision capabilities into your React applications.",
     "thumbnail": "https://img.youtube.com/vi/HEdxRWTl9rA/maxresdefault.jpg",
     "complexity": "Advanced",
     "tools": ["React", "OpenAI", "ChatGPT-4", "Vision API"],
