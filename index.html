@@ -219,17 +219,19 @@
         /* Share buttons styling */
         .share-buttons {
             display: flex;
-            gap: 12px;
-            margin-top: 12px;
-            padding-top: 12px;
+            gap: 15px;
+            margin-top: 15px;
+            padding: 15px 0;
             border-top: 1px solid #eee;
+            justify-content: center;
         }
         
         .share-button {
-            width: 36px;
-            height: 36px;
-            border: none;
+            width: 40px;
+            height: 40px;
+            border: 1px solid #ddd;
             border-radius: 50%;
+            background: white;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -240,14 +242,37 @@
         }
         
         .share-button svg {
-            width: 18px;
-            height: 18px;
-            fill: white;
+            width: 20px;
+            height: 20px;
+            fill: #666;
+            transition: fill 0.2s ease;
         }
         
         .share-button:hover {
+            border-color: #007bff;
             transform: translateY(-2px);
-            opacity: 0.9;
+        }
+        
+        .share-button:hover svg {
+            fill: #007bff;
+        }
+
+        /* Update specific share button colors */
+        .share-copy:hover svg { fill: #666; }
+        .share-whatsapp:hover svg { fill: #25D366; }
+        .share-twitter:hover svg { fill: #000000; }
+        .share-linkedin:hover svg { fill: #0077b5; }
+        
+        /* Update Bluesky icon to match style */
+        .share-button.share-bluesky img {
+            width: 20px;
+            height: 20px;
+            filter: grayscale(1) opacity(0.6);
+            transition: filter 0.2s ease;
+        }
+        
+        .share-button.share-bluesky:hover img {
+            filter: none;
         }
 
         /* Tooltip styling */
@@ -266,7 +291,7 @@
             opacity: 0;
             visibility: hidden;
             transition: all 0.2s ease;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
         }
 
         .share-button:hover::after {
@@ -499,7 +524,7 @@
     <!-- Add navbar -->
     <nav class="navbar">
         <div class="navbar-left">
-            <a href="https://fiveinnolabs.com" class="nav-logo">
+            <a href="https://victordelrosal.github.io/buildwithGenAI" class="nav-logo">
                 <img src="https://victordelrosal.github.io/buildwithGenAI/images/logo.png" alt="fiveinnolabs logo">
             </a>
             <div class="nav-search">
