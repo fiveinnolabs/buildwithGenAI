@@ -249,30 +249,33 @@
         }
         
         .share-button:hover {
-            border-color: #007bff;
+            border-color: #444;
             transform: translateY(-2px);
         }
         
         .share-button:hover svg {
-            fill: #007bff;
+            fill: #444;
         }
 
-        /* Update specific share button colors */
-        .share-copy:hover svg { fill: #666; }
-        .share-whatsapp:hover svg { fill: #25D366; }
-        .share-twitter:hover svg { fill: #000000; }
-        .share-linkedin:hover svg { fill: #0077b5; }
+        /* Remove old color specific styles */
+        .share-whatsapp, 
+        .share-twitter, 
+        .share-bluesky, 
+        .share-linkedin,
+        .share-copy { 
+            background: white; 
+        }
         
-        /* Update Bluesky icon to match style */
+        /* Update Bluesky icon to match grayscale */
         .share-button.share-bluesky img {
             width: 20px;
             height: 20px;
-            filter: grayscale(1) opacity(0.6);
+            filter: grayscale(1) brightness(0.4);
             transition: filter 0.2s ease;
         }
         
         .share-button.share-bluesky:hover img {
-            filter: none;
+            filter: grayscale(1) brightness(0.3);
         }
 
         /* Tooltip styling */
