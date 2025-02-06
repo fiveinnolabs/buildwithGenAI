@@ -790,13 +790,18 @@
         function generateShareUrls(video) {
             const baseUrl = 'https://victordelrosal.github.io/buildwithGenAI/';
             const videoUrl = `${baseUrl}?video=${video.id}`;
-            const text = encodeURIComponent(`Check out "${video.title}" ${videoUrl}`);
+            
+            // Platform-specific share texts
+            const whatsappText = encodeURIComponent(`Check out "${video.title}" ${videoUrl}`);
+            const twitterText = encodeURIComponent(`Check out "${video.title}" ${videoUrl} by @victordelrosal @fiveinnolabs`);
+            const blueskyText = encodeURIComponent(`Check out "${video.title}" ${videoUrl} by @victordelrosal.com`);
+            const linkedinText = encodeURIComponent(`Check out "${video.title}" by @Victor del Rosal ${videoUrl}`);
             
             return {
-                whatsapp: `https://wa.me/?text=${text}`,
-                twitter: `https://twitter.com/intent/tweet?text=${text}`,
-                bluesky: `https://bsky.app/intent/compose?text=${text}`,
-                linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(videoUrl)}`
+                whatsapp: `https://wa.me/?text=${whatsappText}`,
+                twitter: `https://twitter.com/intent/tweet?text=${twitterText}`,
+                bluesky: `https://bsky.app/intent/compose?text=${blueskyText}`,
+                linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(videoUrl)}&title=${linkedinText}`
             };
         }
 
