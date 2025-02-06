@@ -391,6 +391,18 @@
         .nav-search .search-clear:hover {
             color: #666;
         }
+
+        /* Add copy URL button style */
+        .share-copy { background: #666; }
+        
+        /* Add copy success animation */
+        @keyframes copySuccess {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+        .copy-success {
+            animation: copySuccess 0.3s ease;
+        }
     </style>
 </head>
 <body>
@@ -615,6 +627,13 @@
                                 `).join('')}
                             </div>
                             <div class="share-buttons">
+                                <button onclick="copyVideoUrl('${video.id}')" 
+                                        class="share-button share-copy"
+                                        data-tooltip="Copy URL">
+                                    <svg viewBox="0 0 24 24">
+                                        <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z" fill="currentColor"/>
+                                    </svg>
+                                </button>
                                 <button onclick="window.open('${shareUrls.whatsapp}', '_blank')" 
                                         class="share-button share-whatsapp"
                                         data-tooltip="Share on WhatsApp">
@@ -793,6 +812,21 @@
                     }
                 });
             }
+        }
+
+        function copyVideoUrl(videoId) {
+            const url = `https://victordelrosal.github.io/buildwithGenAI/?video=${videoId}`;
+            navigator.clipboard.writeText(url).then(() => {
+                const copyButton = document.querySelector(`.share-button[onclick="copyVideoUrl('${videoId}')"]`);
+                copyButton.classList.add('copy-success');
+                copyButton.setAttribute('data-tooltip', 'Copied!');
+                setTimeout(() => {
+                    copyButton.classList.remove('copy-success');
+                    copyButton.setAttribute('data-tooltip', 'Copy URL');
+                }, 1500);
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+            });
         }
 
         initialize();
