@@ -715,6 +715,119 @@
                 display: block;
             }
         }
+
+        /* Mobile Filter System */
+        .mobile-filters {
+            display: none;
+            position: sticky;
+            top: 60px;
+            background: var(--bg-color);
+            border-bottom: 1px solid var(--border-color);
+            padding: 8px 16px;
+            z-index: 900;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .mobile-filters-row {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .mobile-filter-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .mobile-filter-button {
+            background: none;
+            border: none;
+            padding: 8px;
+            cursor: pointer;
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            min-width: 48px;
+        }
+
+        .mobile-filter-button svg {
+            width: 24px;
+            height: 24px;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            fill: none;
+        }
+
+        .mobile-filter-button span {
+            font-size: 0.7em;
+            text-align: center;
+        }
+
+        .mobile-filter-button.active {
+            color: #007bff;
+        }
+
+        .mobile-filter-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(8px);
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px var(--shadow-color);
+            padding: 8px 0;
+            min-width: 160px;
+            max-height: 300px;
+            overflow-y: auto;
+            display: none;
+            z-index: 1000;
+        }
+
+        .mobile-filter-dropdown.active {
+            display: block;
+            animation: dropdownFadeIn 0.2s ease-out;
+        }
+
+        @keyframes dropdownFadeIn {
+            from { opacity: 0; transform: translateX(-50%) translateY(0); }
+            to { opacity: 1; transform: translateX(-50%) translateY(8px); }
+        }
+
+        .mobile-filter-option {
+            padding: 8px 16px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background-color 0.2s ease;
+        }
+
+        .mobile-filter-option:hover {
+            background-color: var(--tag-bg);
+        }
+
+        .mobile-filter-option.selected {
+            color: #007bff;
+            background-color: var(--tag-bg);
+        }
+
+        @media (max-width: 768px) {
+            .filters {
+                display: none;
+            }
+            .mobile-filters {
+                display: block;
+            }
+            .container {
+                padding-top: 120px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -789,6 +902,64 @@
             </button>
         </div>
     </nav>
+
+    <div class="mobile-filters">
+        <div class="mobile-filters-row">
+            <div class="mobile-filter-item">
+                <button class="mobile-filter-button" data-filter="tracks">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M3 6h18M15 12h6M3 12h8M3 18h18"></path>
+                    </svg>
+                    <span>Tracks</span>
+                </button>
+                <div class="mobile-filter-dropdown" id="tracks-dropdown"></div>
+            </div>
+            
+            <div class="mobile-filter-item">
+                <button class="mobile-filter-button" data-filter="complexity">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M18 20V10M12 20V4M6 20v-6"></path>
+                    </svg>
+                    <span>Level</span>
+                </button>
+                <div class="mobile-filter-dropdown" id="complexity-dropdown"></div>
+            </div>
+            
+            <div class="mobile-filter-item">
+                <button class="mobile-filter-button" data-filter="tools">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+                    </svg>
+                    <span>Tools</span>
+                </button>
+                <div class="mobile-filter-dropdown" id="tools-dropdown"></div>
+            </div>
+            
+            <div class="mobile-filter-item">
+                <button class="mobile-filter-button" data-filter="keywords">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+                        <line x1="7" y1="7" x2="7.01" y2="7"></line>
+                    </svg>
+                    <span>Tags</span>
+                </button>
+                <div class="mobile-filter-dropdown" id="keywords-dropdown"></div>
+            </div>
+            
+            <div class="mobile-filter-item">
+                <button class="mobile-filter-button" data-filter="date">
+                    <svg viewBox="0 0 24 24">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                    </svg>
+                    <span>Date</span>
+                </button>
+                <div class="mobile-filter-dropdown" id="date-dropdown"></div>
+            </div>
+        </div>
+    </div>
 
     <div class="container">
         <h1>⬟ Build with GenAI</h1>
@@ -1438,6 +1609,92 @@
             if (!localStorage.getItem('theme')) {
                 setTheme(e.matches ? 'dark' : 'light');
             }
+        });
+
+        // Add Mobile Filters functionality
+        function initMobileFilters() {
+            const filterButtons = document.querySelectorAll('.mobile-filter-button');
+            const dropdowns = document.querySelectorAll('.mobile-filter-dropdown');
+            
+            // Close dropdowns when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.mobile-filter-item')) {
+                    dropdowns.forEach(dropdown => dropdown.classList.remove('active'));
+                    filterButtons.forEach(button => button.classList.remove('active'));
+                }
+            });
+
+            // Populate dropdowns
+            const dateOptions = [
+                { value: 'all', label: 'All Dates' },
+                { value: 'last-week', label: 'Last Week' },
+                { value: 'last-month', label: 'Last Month' },
+                { value: 'last-quarter', label: 'Last Quarter' },
+                { value: 'last-year', label: 'Last Year' }
+            ];
+
+            filterButtons.forEach(button => {
+                const filterType = button.dataset.filter;
+                const dropdown = button.nextElementSibling;
+                
+                button.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const isActive = dropdown.classList.contains('active');
+                    
+                    // Close all dropdowns
+                    dropdowns.forEach(d => d.classList.remove('active'));
+                    filterButtons.forEach(b => b.classList.remove('active'));
+                    
+                    // Toggle clicked dropdown
+                    if (!isActive) {
+                        dropdown.classList.add('active');
+                        button.classList.add('active');
+                    }
+                });
+
+                // Populate dropdown content
+                if (filterType === 'date') {
+                    dropdown.innerHTML = dateOptions.map(option => `
+                        <div class="mobile-filter-option" data-value="${option.value}">
+                            ${option.label}
+                        </div>
+                    `).join('');
+                } else {
+                    const options = Array.from(document.getElementById(filterType + '-filter').options);
+                    dropdown.innerHTML = options.map(option => `
+                        <div class="mobile-filter-option" data-value="${option.value}">
+                            ${option.text}
+                        </div>
+                    `).join('');
+                }
+
+                // Handle option selection
+                dropdown.addEventListener('click', (e) => {
+                    const option = e.target.closest('.mobile-filter-option');
+                    if (!option) return;
+
+                    const value = option.dataset.value;
+                    const desktopFilter = document.getElementById(filterType + '-filter');
+                    
+                    // Update desktop filter
+                    desktopFilter.value = value;
+                    desktopFilter.dispatchEvent(new Event('change'));
+                    
+                    // Update mobile UI
+                    dropdown.querySelectorAll('.mobile-filter-option').forEach(opt => 
+                        opt.classList.toggle('selected', opt === option)
+                    );
+                    button.classList.toggle('active', value !== 'all');
+                    
+                    // Close dropdown
+                    dropdown.classList.remove('active');
+                });
+            });
+        }
+
+        // Initialize mobile filters after the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            initMobileFilters();
         });
 
         initialize();
