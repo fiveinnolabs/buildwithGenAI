@@ -863,7 +863,7 @@
                         ${video.description.steps && video.description.steps.length > 0 ? `
                             <ol style="margin: 10px 0; padding-left: 20px;">
                                 ${video.description.steps.map(step => `
-                                    <li style="margin-bottom: 5px;">${step}</li>
+                                    <li style="margin-bottom: 5px;">${step.replace(/^\d+\.\s*/, '')}</li>
                                 `).join('')}
                             </ol>
                         ` : ''}
