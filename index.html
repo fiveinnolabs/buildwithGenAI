@@ -834,23 +834,30 @@
             padding: 8px;
             border-color: var(--border-color);
             margin-right: 4px;
+            color: var(--text-color);
+            background-color: transparent;
         }
 
         .mobile-filter-button.clear-all svg {
             width: 20px;
             height: 20px;
+            transition: stroke 0.2s ease;
         }
 
         .mobile-filter-button.clear-all:hover {
-            background-color: #ff6b6b;
             border-color: #ff6b6b;
-            color: white;
+            color: #ff6b6b;
+            background-color: transparent;
         }
 
         .mobile-filter-button.clear-all.active {
-            background-color: #ff6b6b;
             border-color: #ff6b6b;
-            color: white;
+            color: #ff6b6b;
+            background-color: transparent;
+        }
+
+        .mobile-filter-button.clear-all.active svg {
+            stroke: #ff6b6b;
         }
 
         /* ...rest of existing styles... */
