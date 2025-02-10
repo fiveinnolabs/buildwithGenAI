@@ -857,6 +857,18 @@
                         `https://img.youtube.com/vi/${video.id}/mqdefault.jpg`
                     ];
 
+                    // Format description content
+                    const descriptionHtml = `
+                        <p>${video.description.summary}</p>
+                        ${video.description.steps && video.description.steps.length > 0 ? `
+                            <ol style="margin: 10px 0; padding-left: 20px;">
+                                ${video.description.steps.map(step => `
+                                    <li style="margin-bottom: 5px;">${step}</li>
+                                `).join('')}
+                            </ol>
+                        ` : ''}
+                    `;
+                    
                     videoCard.innerHTML = `
                         <div class="video-thumbnail" data-video-id="${video.id}">
                             <img src="${thumbnailUrls[0]}" 
@@ -874,7 +886,9 @@
                         </div>
                         <div class="video-info">
                             <h3>${video.title}</h3>
-                            <p>${video.description}</p>
+                            <div class="description">
+                                ${descriptionHtml}
+                            </div>
                             <div class="tags" style="display: flex; flex-wrap: wrap; gap: 5px;">
                                 ${video.tools.map(tool => `
                                     <span class="tag" style="opacity: 0; animation: fadeIn 0.3s ease forwards ${index * 100 + 300}ms">
