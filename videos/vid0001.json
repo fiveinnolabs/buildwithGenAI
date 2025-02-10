@@ -30,9 +30,6 @@
         "Beginner",
         "Non-Coders"
     ],
-    "track": [
-        "Web Development",
-        "AI & Automation"
-    ],
+    "track": ["General"],
     "date": "2025-02-10"
 }
