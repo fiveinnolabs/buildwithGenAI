@@ -734,17 +734,20 @@
             const tools = new Set();
             const keywords = new Set();
             const complexities = new Set();
+            const tracks = new Set();
 
             videos.forEach(video => {
-                video.tools.forEach(tool => tools.add(tool));
-                video.keywords.forEach(keyword => keywords.add(keyword));
-                complexities.add(video.complexity);
+                video.tools?.forEach(tool => tools.add(tool));
+                video.keywords?.forEach(keyword => keywords.add(keyword));
+                video.track?.forEach(track => tracks.add(track)); // Handle track as array
+                if (video.complexity) complexities.add(video.complexity);
             });
 
             return {
                 tools: Array.from(tools).sort(),
                 keywords: Array.from(keywords).sort(),
-                complexities: Array.from(complexities).sort()
+                complexities: Array.from(complexities).sort(),
+                tracks: Array.from(tracks).sort()
             };
         }
 
@@ -752,11 +755,18 @@
             const toolsFilter = document.getElementById('tools-filter');
             const keywordsFilter = document.getElementById('keywords-filter');
             const complexityFilter = document.getElementById('complexity-filter');
+            const tracksFilter = document.getElementById('tracks-filter');
 
             // Reset filters
             toolsFilter.innerHTML = '<option value="all">Tools</option>';
             keywordsFilter.innerHTML = '<option value="all">Keywords</option>';
             complexityFilter.innerHTML = '<option value="all">Complexity</option>';
+            tracksFilter.innerHTML = '<option value="all">Tracks</option>';
+
+            // Add track options from actual data
+            filterValues.tracks.forEach(track => {
+                tracksFilter.innerHTML += `<option value="${track}">${track}</option>`;
+            });
 
             // Manually set the order of complexity options
             const complexityOrder = ['Beginner', 'Intermediate', 'Advanced'];
@@ -973,11 +983,17 @@
                     if (selectedDate === 'last-quarter' && dateDiff > 90) dateMatch = false;
                     if (selectedDate === 'last-year' && dateDiff > 365) dateMatch = false;
                 }
+
+                // Handle track array safely
+                const trackMatch = selectedTrack === 'all' || 
+                                 (video.track && Array.isArray(video.track) && 
+                                  video.track.includes(selectedTrack));
+
                 return (
                     (selectedComplexity === 'all' || video.complexity === selectedComplexity) &&
-                    (selectedTool === 'all' || video.tools.includes(selectedTool)) &&
-                    (selectedKeyword === 'all' || video.keywords.includes(selectedKeyword)) &&
-                    (selectedTrack === 'all' || video.track === selectedTrack) &&
+                    (selectedTool === 'all' || video.tools?.includes(selectedTool)) &&
+                    (selectedKeyword === 'all' || video.keywords?.includes(selectedKeyword)) &&
+                    trackMatch &&
                     (query === '' || video.title.toLowerCase().includes(query) || video.description.toLowerCase().includes(query)) &&
                     dateMatch
                 );
