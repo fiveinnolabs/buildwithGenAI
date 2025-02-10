@@ -1,25 +1,38 @@
 {
-    "id": "ZCiHFI72xj4",
-    "title": "Introducing Claude 3 Family: Anthropic's Most Capable AI Models",
+    "id": "E6SPkXuzbf8",
+    "title": "Publishing your first HTML page with Generative AI for Non-Coders",
     "description": {
-        "summary": "In this session, we update social media share buttons to follow a clean grayscale aesthetic. The changes include setting button backgrounds to light gray, darkening icons for better contrast, ensuring a uniform monochrome look, and maintaining hover animations while removing color-specific styles. The result is a polished and professional UI that enhances site consistency.",
+        "summary": "This video introduces non-coders to generative AI by demonstrating how to generate and run their first HTML page using a large language model.",
         "steps": [
-            "1. Open your project in VS Code or your preferred code editor.",
-            "2. Locate the HTML file where the social media buttons are defined.",
-            "3. Identify the CSS styles controlling the button colors and icon styles.",
-            "4. Update the button background colors to a light gray (#e0e0e0) to achieve a clean grayscale look.",
-            "5. Adjust the icon colors to a darker gray (#333333) for better contrast and visibility.",
-            "6. Remove any existing color-based hover effects to maintain consistency.",
-            "7. Add a subtle hover animation by slightly darkening the background color on hover.",
-            "8. Save the changes and push the updated files to your GitHub repository.",
-            "9. Test the new design in your browser to ensure all buttons display correctly.",
-            "10. Commit and synchronize the changes to finalize the update."
+            "1. Open ChatGPT or your preferred AI model.",
+            "2. Ask the model to generate a basic HTML page.",
+            "3. Copy the generated HTML code.",
+            "4. Open a text editor (e.g., Notepad, Sublime Text).",
+            "5. Paste the HTML code into the editor.",
+            "6. Save the file as 'index.html'.",
+            "7. Open the file in a web browser to view the page.",
+            "8. (Optional) Embed the HTML code into a Google Site.",
+            "9. Publish and view the site online."
         ]
     },
-    "thumbnail": "https://img.youtube.com/vi/ZCiHFI72xj4/maxresdefault.jpg",
+    "thumbnail": "https://img.youtube.com/vi/KxOV9LJFy3A/maxresdefault.jpg",
     "complexity": "Beginner",
-    "tools": ["Claude 3", "AI Models", "Anthropic"],
-    "keywords": ["AI", "machine learning", "large language models", "Claude", "Anthropic"],
-    "track": ["General", "Sample"],
-    "date": "2024-03-04"
+    "tools": [
+        "ChatGPT",
+        "Text Editor",
+        "Web Browser",
+        "Google Sites"
+    ],
+    "keywords": [
+        "Generative AI",
+        "HTML",
+        "Coding",
+        "Beginner",
+        "Non-Coders"
+    ],
+    "track": [
+        "Web Development",
+        "AI & Automation"
+    ],
+    "date": "2025-02-10"
 }
