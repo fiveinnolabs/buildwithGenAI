@@ -1148,7 +1148,11 @@
         }
 
         function filterVideos(videos) {
-            const query = searchInput.value.toLowerCase();
+            // Get search query from either desktop or mobile search input
+            const desktopQuery = document.getElementById('search')?.value || '';
+            const mobileQuery = document.getElementById('mobile-search')?.value || '';
+            const query = (desktopQuery || mobileQuery).toLowerCase();
+            
             const selectedComplexity = complexityFilter.value;
             const selectedTool = document.getElementById('tools-filter').value;
             const selectedKeyword = document.getElementById('keywords-filter').value;
@@ -1196,12 +1200,27 @@
             nextButton.disabled = (currentPage + 1) * videosPerPage >= filteredVideos.length;
         }
 
-        searchInput.addEventListener('input', async () => {
-            const videos = await fetchVideos();
-            const clearButton = document.getElementById('search-clear');
-            searchInput.classList.toggle('active', searchInput.value !== '');
-            clearButton.style.display = searchInput.value ? 'block' : 'none';
-            renderVideos(filterVideos(videos));
+        // Remove old search input event listener
+        // searchInput.addEventListener('input', async () => { ... });
+
+        // Add synced search functionality
+        ['search', 'mobile-search'].forEach(id => {
+            const input = document.getElementById(id);
+            if (input) {
+                input.addEventListener('input', async () => {
+                    // Sync the other input
+                    const otherId = id === 'search' ? 'mobile-search' : 'search';
+                    const otherInput = document.getElementById(otherId);
+                    if (otherInput) otherInput.value = input.value;
+                    
+                    // Show/hide clear button
+                    const clearButton = input.nextElementSibling;
+                    if (clearButton) clearButton.style.display = input.value ? 'block' : 'none';
+                    
+                    const videos = await fetchVideos();
+                    renderVideos(filterVideos(videos));
+                });
+            }
         });
 
         complexityFilter.addEventListener('change', async () => {
