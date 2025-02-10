@@ -6,6 +6,6 @@
     "complexity": "Beginner",
     "tools": ["Claude 3", "AI Models", "Anthropic"],
     "keywords": ["AI", "machine learning", "large language models", "Claude", "Anthropic"],
-    "tracks": ["educator", "general"],
+    "track": ["educator", "general"],
     "date": "2024-03-04"
 }

@@ -6,6 +6,6 @@
     "complexity": "Intermediate",
     "tools": ["ChatGPT", "Claude", "Fine-tuning"],
     "keywords": ["AI model", "fine-tuning", "custom AI", "tutorial"],
-    "tracks": ["educator", "general"],
+    "track": ["educator", "general"],
     "date": "2024-02-15"
 }
