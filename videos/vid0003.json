@@ -6,5 +6,6 @@
     "complexity": "Advanced",
     "tools": ["React", "OpenAI", "ChatGPT-4", "Vision API"],
     "keywords": ["web development", "AI vision", "QR code", "React", "tutorial"],
+    "tracks": ["educator", "general"],
     "date": "2024-01-20"
 }
