@@ -754,10 +754,49 @@
             cursor: pointer;
         }
 
-        .mobile-filter-button.active {
+        /* Category filter buttons active state */
+        .mobile-filter-button:not(.clear-all).active {
             background-color: #007bff;
             color: white;
             border-color: #0056b3;
+        }
+
+        /* Clear all button styles */
+        .mobile-filter-button.clear-all {
+            padding: 8px;
+            border-color: var(--border-color);
+            margin-right: 4px;
+            color: var(--text-color);
+            background-color: transparent;
+        }
+
+        .mobile-filter-button.clear-all svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+            transition: all 0.2s ease;
+        }
+
+        /* Clear all button active state */
+        .mobile-filter-button.clear-all.active {
+            color: #ff6b6b;
+            border-color: var(--border-color);
+            background-color: transparent;
+        }
+
+        .mobile-filter-button.clear-all.active svg {
+            stroke: #ff6b6b;
+        }
+
+        /* Hover states */
+        .mobile-filter-button:not(.clear-all):hover {
+            border-color: #007bff;
+            color: #007bff;
+        }
+
+        .mobile-filter-button.clear-all:hover {
+            color: #ff6b6b;
+            border-color: var(--border-color);
         }
 
         .mobile-filter-dropdown {
