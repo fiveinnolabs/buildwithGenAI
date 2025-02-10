@@ -655,6 +655,13 @@
         <p class="welcome-text">Everyone can build with generative AI. Sharing my learning journey...</p>
         <div class="filters">
             <button id="clear-filters" class="filter">Clear all filters</button>
+            <select id="tracks-filter" class="filter">
+                <option value="all">Tracks</option>
+                <option value="Building with LLMs">Building with LLMs</option>
+                <option value="Building with Computer Vision">Building with Computer Vision</option>
+                <option value="Building with Multimodal">Building with Multimodal</option>
+                <option value="Building with Voice">Building with Voice</option>
+            </select>
             <select id="complexity-filter" class="filter">
                 <option value="all">Complexity</option>
                 <option value="Beginner">Beginner</option>
@@ -952,6 +959,7 @@
             const selectedComplexity = complexityFilter.value;
             const selectedTool = document.getElementById('tools-filter').value;
             const selectedKeyword = document.getElementById('keywords-filter').value;
+            const selectedTrack = document.getElementById('tracks-filter').value;
             const selectedDate = dateFilter.value;
             const currentDate = new Date();
             
@@ -969,6 +977,7 @@
                     (selectedComplexity === 'all' || video.complexity === selectedComplexity) &&
                     (selectedTool === 'all' || video.tools.includes(selectedTool)) &&
                     (selectedKeyword === 'all' || video.keywords.includes(selectedKeyword)) &&
+                    (selectedTrack === 'all' || video.track === selectedTrack) &&
                     (query === '' || video.title.toLowerCase().includes(query) || video.description.toLowerCase().includes(query)) &&
                     dateMatch
                 );
@@ -1022,12 +1031,20 @@
             renderVideos(filterVideos(videos));
         });
 
+        document.getElementById('tracks-filter').addEventListener('change', async () => {
+            const filter = document.getElementById('tracks-filter');
+            const videos = await fetchVideos();
+            filter.classList.toggle('active', filter.value !== 'all');
+            renderVideos(filterVideos(videos));
+        });
+
         clearFilters.addEventListener('click', async () => {
             searchInput.value = '';
             complexityFilter.value = 'all';
             dateFilter.value = 'all';
             document.getElementById('tools-filter').value = 'all';
             document.getElementById('keywords-filter').value = 'all';
+            document.getElementById('tracks-filter').value = 'all';
             
             // Remove all active classes
             searchInput.classList.remove('active');
