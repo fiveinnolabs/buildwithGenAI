@@ -657,10 +657,6 @@
             <button id="clear-filters" class="filter">Clear all filters</button>
             <select id="tracks-filter" class="filter">
                 <option value="all">Tracks</option>
-                <option value="Building with LLMs">Building with LLMs</option>
-                <option value="Building with Computer Vision">Building with Computer Vision</option>
-                <option value="Building with Multimodal">Building with Multimodal</option>
-                <option value="Building with Voice">Building with Voice</option>
             </select>
             <select id="complexity-filter" class="filter">
                 <option value="all">Complexity</option>
@@ -763,18 +759,20 @@
             complexityFilter.innerHTML = '<option value="all">Complexity</option>';
             tracksFilter.innerHTML = '<option value="all">Tracks</option>';
 
-            // Add track options from actual data
+            // Add track options dynamically from the data
             filterValues.tracks.forEach(track => {
-                tracksFilter.innerHTML += `<option value="${track}">${track}</option>`;
+                tracksFilter.innerHTML += `
+                    <option value="${track}">${track}</option>
+                `;
             });
 
-            // Manually set the order of complexity options
+            // Add complexity options
             const complexityOrder = ['Beginner', 'Intermediate', 'Advanced'];
             complexityOrder.forEach(complexity => {
                 complexityFilter.innerHTML += `<option value="${complexity}">${complexity}</option>`;
             });
 
-            // Populate other filters
+            // Add tool and keyword options
             filterValues.tools.forEach(tool => {
                 toolsFilter.innerHTML += `<option value="${tool}">${tool}</option>`;
             });
