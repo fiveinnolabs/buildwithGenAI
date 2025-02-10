@@ -687,6 +687,34 @@
         .theme-toggle:hover svg {
             transform: rotate(45deg);
         }
+
+        /* Add new search layout rules */
+        .nav-search {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 400px;
+        }
+
+        .mobile-search {
+            display: none;
+            margin: 20px 0;
+            width: 100%;
+        }
+
+        .desktop-only {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .desktop-only {
+                display: none;
+            }
+            
+            .mobile-search {
+                display: block;
+            }
+        }
     </style>
 </head>
 <body>
@@ -696,11 +724,13 @@
             <a href="https://victordelrosal.github.io/buildwithGenAI" class="nav-logo">
                 <img src="https://victordelrosal.github.io/buildwithGenAI/images/logo.png" alt="fiveinnolabs logo">
             </a>
-            <div class="nav-search">
-                <input type="text" id="search" class="search-box" placeholder="Search...">
-                <span class="search-clear" id="search-clear">✕</span>
-            </div>
         </div>
+        
+        <div class="nav-search desktop-only">
+            <input type="text" id="search" class="search-box" placeholder="Search...">
+            <span class="search-clear" id="search-clear">✕</span>
+        </div>
+
         <div class="navbar-right">
             <a href="https://victordelrosal.github.io/buildwithGenAI/?video=dFSnam97YbQ" class="nav-link">
                 <svg viewBox="0 0 24 24">
@@ -763,6 +793,12 @@
     <div class="container">
         <h1>⬟ Build with GenAI</h1>
         <p class="welcome-text">Everyone can build with generative AI. Sharing my learning journey...</p>
+        
+        <div class="mobile-search">
+            <input type="text" id="mobile-search" class="search-box" placeholder="Search...">
+            <span class="search-clear" id="mobile-search-clear">✕</span>
+        </div>
+
         <div class="filters">
             <button id="clear-filters" class="filter">Clear all filters</button>
             <select id="tracks-filter" class="filter">
@@ -1295,7 +1331,7 @@
             // Update toggle button icon
             themeToggle.innerHTML = theme === 'dark' ? `
                 <svg class="moon" viewBox="0 0 24 24">
-                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 A7 7 0 0 0 21 12.79z"></path>
                 </svg>
             ` : `
                 <svg class="sun" viewBox="0 0 24 24">
