@@ -828,6 +828,32 @@
                 padding-top: 110px;
             }
         }
+
+        /* Add these new styles for the mobile clear button */
+        .mobile-filter-button.clear-all {
+            padding: 8px;
+            border-color: var(--border-color);
+            margin-right: 4px;
+        }
+
+        .mobile-filter-button.clear-all svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .mobile-filter-button.clear-all:hover {
+            background-color: #ff6b6b;
+            border-color: #ff6b6b;
+            color: white;
+        }
+
+        .mobile-filter-button.clear-all.active {
+            background-color: #ff6b6b;
+            border-color: #ff6b6b;
+            color: white;
+        }
+
+        /* ...rest of existing styles... */
     </style>
 </head>
 <body>
@@ -905,6 +931,12 @@
 
     <div class="mobile-filters">
         <div class="mobile-filters-row">
+            <button class="mobile-filter-button clear-all" aria-label="Clear all filters">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
             <button class="mobile-filter-button" data-filter="tracks">Tracks</button>
             <button class="mobile-filter-button" data-filter="complexity">Complexity</button>
             <button class="mobile-filter-button" data-filter="tools">Tools</button>
@@ -1664,6 +1696,37 @@
                     }
                 });
             });
+
+            // Add clear all button functionality
+            const clearAllButton = document.querySelector('.mobile-filter-button.clear-all');
+            
+            // Function to check if any filters are active
+            const checkActiveFilters = () => {
+                const hasActiveFilters = Array.from(document.querySelectorAll('.filter')).some(filter => 
+                    filter.value !== 'all'
+                );
+                clearAllButton.classList.toggle('active', hasActiveFilters);
+            };
+
+            // Add click handler for clear all button
+            clearAllButton.addEventListener('click', () => {
+                // Trigger desktop clear filters button
+                document.getElementById('clear-filters').click();
+                
+                // Update mobile UI
+                document.querySelectorAll('.mobile-filter-button').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                clearAllButton.classList.remove('active');
+            });
+
+            // Monitor filter changes to update clear button state
+            document.querySelectorAll('.filter').forEach(filter => {
+                filter.addEventListener('change', checkActiveFilters);
+            });
+
+            // Initial check for active filters
+            checkActiveFilters();
         }
 
         // Initialize mobile filters after the page loads
