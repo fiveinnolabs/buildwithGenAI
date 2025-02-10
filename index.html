@@ -1200,14 +1200,28 @@
             nextButton.disabled = (currentPage + 1) * videosPerPage >= filteredVideos.length;
         }
 
-        // Remove old search input event listener
-        // searchInput.addEventListener('input', async () => { ... });
+        // Add debounce function before the search event listeners
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
 
-        // Add synced search functionality
+        // Replace the existing search input event listeners with this code
         ['search', 'mobile-search'].forEach(id => {
             const input = document.getElementById(id);
             if (input) {
-                input.addEventListener('input', async () => {
+                const debouncedFilter = debounce(() => {
+                    renderVideos(filterVideos(totalVideos));
+                }, 150);
+
+                input.addEventListener('input', () => {
                     // Sync the other input
                     const otherId = id === 'search' ? 'mobile-search' : 'search';
                     const otherInput = document.getElementById(otherId);
@@ -1217,8 +1231,8 @@
                     const clearButton = input.nextElementSibling;
                     if (clearButton) clearButton.style.display = input.value ? 'block' : 'none';
                     
-                    const videos = await fetchVideos();
-                    renderVideos(filterVideos(videos));
+                    // Apply filtering with debouncing
+                    debouncedFilter();
                 });
             }
         });
