@@ -1,0 +1,25 @@
+{
+    "id": "KxOV9LJFy3A",
+    "title": "Refining Social Media Share Buttons Grayscale UI Update",
+    "description": {
+        "summary": "In this session, we update social media share buttons to follow a clean grayscale aesthetic. The changes include setting button backgrounds to light gray, darkening icons for better contrast, ensuring a uniform monochrome look, and maintaining hover animations while removing color-specific styles. The result is a polished and professional UI that enhances site consistency.",
+        "steps": [
+            "1. Open your project in VS Code or your preferred code editor.",
+            "2. Locate the HTML file where the social media buttons are defined.",
+            "3. Identify the CSS styles controlling the button colors and icon styles.",
+            "4. Update the button background colors to a light gray (#e0e0e0) to achieve a clean grayscale look.",
+            "5. Adjust the icon colors to a darker gray (#333333) for better contrast and visibility.",
+            "6. Remove any existing color-based hover effects to maintain consistency.",
+            "7. Add a subtle hover animation by slightly darkening the background color on hover.",
+            "8. Save the changes and push the updated files to your GitHub repository.",
+            "9. Test the new design in your browser to ensure all buttons display correctly.",
+            "10. Commit and synchronize the changes to finalize the update."
+        ]
+    },
+    "thumbnail": "https://img.youtube.com/vi/KxOV9LJFy3A/maxresdefault.jpg",
+    "complexity": "Intermediate",
+    "tools": ["HTML", "CSS", "GitHub", "UI Design"],
+    "keywords": ["UI design", "web development", "grayscale buttons", "social media", "CSS styling"],
+    "track": ["General"],
+    "date": "2025-02-14"
+}
